@@ -873,6 +873,41 @@ textarea.form-input { resize: vertical; min-height: 80px; }
   background: rgba(0,212,255,0.03);
 }
 
+/* 手册正文（含 OpenCode 离线手册的代码块与表格） */
+.manual-content { font-size:13px; color:var(--text-secondary, #c7d0e0); line-height:1.7; }
+.manual-content h2 { font-size:14px; font-weight:600; margin:12px 0 6px; color:var(--text, #e8edf5); }
+.manual-content h2:first-child { margin-top:0; }
+.manual-content p { margin:0 0 8px; }
+.manual-content strong { color:var(--text, #e8edf5); }
+.manual-content pre {
+  background: rgba(255,255,255,0.05);
+  border:1px solid var(--border-glass, rgba(255,255,255,0.08));
+  border-radius:8px;
+  padding:10px 12px;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  margin:0 0 10px;
+}
+.manual-content pre code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size:12px;
+  line-height:1.5;
+  color:#cfe8ff;
+  white-space:pre;
+}
+.manual-content table {
+  width:100%;
+  border-collapse:collapse;
+  margin:0 0 10px;
+  font-size:12px;
+}
+.manual-content th, .manual-content td {
+  border:1px solid var(--border-glass, rgba(255,255,255,0.08));
+  padding:6px 8px;
+  text-align:left;
+}
+.manual-content th { background:rgba(255,255,255,0.05); color:var(--text, #e8edf5); }
+
 .lightbox-overlay {
   position:fixed; inset:0; z-index:200;
   background:rgba(0,0,0,0.92);

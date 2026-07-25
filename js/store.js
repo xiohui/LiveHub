@@ -183,12 +183,23 @@ export const Store = {
     if (!hasOpenCode) {
       await DB.add('materials', {
         title: '🤖 OpenCode使用手册',
-        description: '在线教程 · 14章 + 5附录 · 点击访问',
+        description: '本地离线手册 · 14章 + 5附录 · 点击查看',
         category: 'OPENCODE',
-        url: 'https://liamamilin.github.io/opencode_tutorial/',
+        url: '',
         isManual: true,
+        manualType: 'opencode',
         createdAt: Date.now(),
       });
+    } else {
+      // 迁移：旧版本指向外链，统一改为本地离线手册
+      for (const m of existing) {
+        if (m.isManual && m.title.includes('OpenCode') && (m.url || m.manualType !== 'opencode')) {
+          m.url = '';
+          m.manualType = 'opencode';
+          m.description = '本地离线手册 · 14章 + 5附录 · 点击查看';
+          await DB.put('materials', m);
+        }
+      }
     }
   },
 

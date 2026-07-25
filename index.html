@@ -44,14 +44,14 @@
 if ('serviceWorker' in navigator) {
   (async () => {
     const regs = await navigator.serviceWorker.getRegistrations();
-    if (regs.length > 0 && !sessionStorage.getItem('lh_sw_v7')) {
-      sessionStorage.setItem('lh_sw_v7', '1');
+    if (regs.length > 0 && !sessionStorage.getItem('lh_sw_v8')) {
+      sessionStorage.setItem('lh_sw_v8', '1');
       await Promise.all(regs.map(r => r.unregister()));
       location.reload();
     }
   })();
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=7').catch(() => {});
+    navigator.serviceWorker.register('./sw.js?v=8').catch(() => {});
   });
   // SW activate 阶段会通过 clients.navigate() 自动刷新所有页面，无需 controllerchange 监听
 }

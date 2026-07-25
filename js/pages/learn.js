@@ -1,5 +1,6 @@
 import { Store } from '../store.js';
 import { DB } from '../db.js';
+import { manualData } from '../manual/opencode-content.js';
 
 let $el = null;
 let currentTab = 'reading';
@@ -274,7 +275,9 @@ async function renderMaterialList(category) {
     const mat = all.find(m => m.id === Number(item.dataset.id));
     if (mat && mat.isManual) {
       item.style.cursor = 'pointer';
-      if (mat.url) {
+      if (mat.manualType === 'opencode') {
+        item.addEventListener('click', () => showOpenCodeManual());
+      } else if (mat.url) {
         item.addEventListener('click', () => window.open(mat.url, '_blank'));
       } else {
         item.addEventListener('click', () => showManualModal());
@@ -450,6 +453,43 @@ function showManualModal() {
     if (e.target === e.currentTarget) overlay.remove();
   });
   overlay.querySelector('#manual-close').addEventListener('click', () => overlay.remove());
+}
+
+function showOpenCodeManual() {
+  const d = manualData;
+  let body = `<h2 style="font-size:22px;font-weight:700;margin-bottom:4px;">${escHtml(d.title)}</h2>`;
+  if (d.subtitle) body += `<p style="font-size:13px;color:var(--text-muted);margin-bottom:18px;">${escHtml(d.subtitle)}</p>`;
+  (d.parts || []).forEach(part => {
+    body += `<section style="margin:18px 0;padding-top:16px;border-top:1px solid var(--border-glass, rgba(255,255,255,0.08));">`;
+    body += `<h3 style="font-size:16px;font-weight:600;margin-bottom:10px;color:var(--accent);">${escHtml(part.name)}</h3>`;
+    (part.chapters || []).forEach(ch => {
+      body += `<div style="margin-bottom:14px;">`;
+      body += `<h4 style="font-size:14px;font-weight:600;margin:0 0 6px;color:var(--text-secondary);">${escHtml(ch.title)}</h4>`;
+      body += `<div class="manual-content">${ch.content}</div>`;
+      body += `</div>`;
+    });
+    body += `</section>`;
+  });
+
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay manual-overlay';
+  overlay.innerHTML = `
+    <div class="modal-sheet manual-sheet">
+      <div class="modal-handle"></div>
+      <div style="max-height:70vh;overflow-y:auto;padding-right:4px;">
+        ${body}
+      </div>
+      <div class="btn-group" style="margin-top:12px;">
+        <button class="btn btn-glass btn-block" id="opencode-manual-close">关闭</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  requestAnimationFrame(() => overlay.classList.add('show'));
+  overlay.addEventListener('click', e => {
+    if (e.target === e.currentTarget) overlay.remove();
+  });
+  overlay.querySelector('#opencode-manual-close').addEventListener('click', () => overlay.remove());
 }
 
 function escHtml(s) {

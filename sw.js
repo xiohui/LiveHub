@@ -1,5 +1,5 @@
 // LiveHub Service Worker —— 应用外壳缓存，支持离线访问与可安装
-const CACHE = 'livehub-v7';
+const CACHE = 'livehub-v8';
 const ASSETS = [
   './',
   './index.html',
@@ -13,6 +13,7 @@ const ASSETS = [
   './js/pages/life.js',
   './js/pages/sport.js',
   './js/pages/learn.js',
+  './js/manual/opencode-content.js',
   './icons/icon-192.svg',
   './icons/icon-512.svg',
 ];
