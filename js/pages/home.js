@@ -41,7 +41,7 @@ async function render() {
         <div class="page-scroll">
           <div class="page-header">
             <div>
-              <h1>LiveHub</h1>
+              <h1>集合</h1>
               <div class="sub">${greeting()} · ${dateStr()} ${emojiForWeather()}</div>
             </div>
             <div class="avatar-btn" id="btn-settings">⚙️</div>

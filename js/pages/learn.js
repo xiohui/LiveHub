@@ -371,7 +371,7 @@ function showManualModal() {
     <div class="modal-sheet manual-sheet">
       <div class="modal-handle"></div>
       <div style="max-height:70vh;overflow-y:auto;padding-right:4px;">
-        <h2 style="font-size:22px;font-weight:700;margin-bottom:18px;">📖 LiveHub 使用手册</h2>
+        <h2 style="font-size:22px;font-weight:700;margin-bottom:18px;">📖 集合 使用手册</h2>
 
         <section style="margin-bottom:20px;">
           <h3 style="font-size:16px;font-weight:600;margin-bottom:8px;color:var(--accent);">🏠 首页概览</h3>
@@ -428,7 +428,7 @@ function showManualModal() {
 
         <section style="margin-bottom:20px;">
           <h3 style="font-size:16px;font-weight:600;margin-bottom:8px;color:var(--accent);">📲 安装到桌面（PWA）</h3>
-          <p style="font-size:13px;color:var(--text-secondary);line-height:1.7;">LiveHub 支持 PWA，可像原生 App 一样添加到手机桌面：<br>
+          <p style="font-size:13px;color:var(--text-secondary);line-height:1.7;">集合 支持 PWA，可像原生 App 一样添加到手机桌面：<br>
           · <strong>华为 / Android</strong>：Chrome 浏览器打开后，点击菜单 →「添加到主屏幕」<br>
           · <strong>iPhone</strong>：Safari 打开后，点击分享按钮 →「添加到主屏幕」<br>
           添加到桌面后可离线查看已打开过的页面。</p>

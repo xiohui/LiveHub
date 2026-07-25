@@ -1,6 +1,6 @@
 {
-  "name": "LiveHub",
-  "short_name": "LiveHub",
+  "name": "集合",
+  "short_name": "集合",
   "description": "生活、运动、学习一体化管理",
   "start_url": ".",
   "scope": ".",

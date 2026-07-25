@@ -168,11 +168,11 @@ export const Store = {
   async seedMaterials() {
     // 仅在使用手册缺失时补充，绝不删除用户已收藏的资料
     const existing = await DB.getAll('materials');
-    const hasLiveHub = existing.some(m => m.isManual && m.title.includes('LiveHub'));
+    const hasLiveHub = existing.some(m => m.isManual && (m.title.includes('LiveHub') || m.title.includes('集合')));
     const hasOpenCode = existing.some(m => m.isManual && m.title.includes('OpenCode'));
     if (!hasLiveHub) {
       await DB.add('materials', {
-        title: '📖 LiveHub 使用手册',
+        title: '📖 集合 使用手册',
         description: '点击查看完整使用指南 · 涵盖所有功能',
         category: '手册',
         url: '',
@@ -214,7 +214,7 @@ export const Store = {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `LiveHub-backup-${todayStr()}.json`;
+    a.download = `集合-backup-${todayStr()}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
