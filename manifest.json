@@ -1,7 +1,7 @@
 {
-  "name": "集合",
-  "short_name": "集合",
-  "description": "生活、运动、学习一体化管理",
+  "name": "集合 LiveHub",
+  "short_name": "集合 LH",
+  "description": "集合 LiveHub - 生活、运动、学习一体化管理。待办、Vlog、运动打卡、读书进度与资料收藏。",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",
