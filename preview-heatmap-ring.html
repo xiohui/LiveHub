@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>本周打卡 · 环形色条方案</title>
+<style>
+  :root{
+    --bg:#0a0e1a;
+    --glass:rgba(255,255,255,0.04);
+    --glass-border:rgba(255,255,255,0.08);
+    --text:#e8eef7;
+    --text-2:#8b95a7;
+    --accent:#00d4ff;
+    --cardio:#22d3ee;
+    --strength:#fb7185;
+    --core:#a78bfa;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+    padding:28px 16px 48px;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:880px;margin:0 auto}
+  h1{font-size:18px;font-weight:600;letter-spacing:.5px}
+  .sub{color:var(--text-2);font-size:13px;margin-top:6px;line-height:1.6}
+  .card{
+    background:var(--glass);border:1px solid var(--glass-border);border-radius:16px;
+    padding:22px 18px 18px;margin-top:24px;backdrop-filter:blur(12px);
+  }
+  .card h2{font-size:14px;font-weight:600;margin-bottom:4px}
+  .card .desc{font-size:12px;color:var(--text-2);margin-bottom:18px;line-height:1.5}
+  .rings{display:flex;justify-content:space-between;gap:6px}
+  .cell{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px}
+  .cell svg{width:100%;max-width:64px;height:auto;display:block}
+  .cell .lab{font-size:11px;color:var(--text-2)}
+  .cell .lab.t{color:var(--accent);font-weight:600}
+  .legend{display:flex;gap:18px;justify-content:center;margin-top:20px;font-size:11px;color:var(--text-2)}
+  .legend-item{display:inline-flex;align-items:center;gap:6px}
+  .sw{width:12px;height:12px;border-radius:50%;display:inline-block;border:3px solid}
+  .sw-cardio{border-color:var(--cardio)}
+  .sw-strength{border-color:var(--strength)}
+  .sw-core{border-color:var(--core)}
+  .note{
+    margin-top:22px;background:var(--glass);border:1px solid var(--glass-border);
+    border-radius:14px;padding:16px 18px;font-size:13px;color:var(--text-2);line-height:1.7
+  }
+  .note b{color:var(--text)}
+  .ask{margin-top:18px;font-size:13px;color:var(--text)}
+  .ask code{background:rgba(255,255,255,.06);padding:2px 7px;border-radius:5px;color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>本周打卡 · 环形色条方案</h1>
+  <p class="sub">每天一个圆，圆内三条同心色环分别对应三个运动类别。当天某类别练得越多，那条环的着色弧越长（以单日 3 次为满环）。中心数字是当天总打卡数，休息日为空白。</p>
+
+  <div class="card">
+    <h2>环形色条 · 实时预览</h2>
+    <p class="desc">外环=有氧(青蓝) · 中环=力量(珊瑚) · 内环=核心(紫)。今天(周五)有描边高亮。</p>
+    <div class="rings" id="rings"></div>
+    <div class="legend">
+      <span class="legend-item"><i class="sw sw-cardio"></i>有氧</span>
+      <span class="legend-item"><i class="sw sw-strength"></i>力量</span>
+      <span class="legend-item"><i class="sw sw-core"></i>核心</span>
+    </div>
+  </div>
+
+  <div class="note">
+    <b>怎么读：</b>周五(今天)两次有氧 → 外环涂了约 2/3 青蓝；一次力量 → 中环 1/3 珊瑚。周三一次有氧+一次核心 → 外环、内环各 1/3。周四休息 → 只有淡淡的底环，中心留空。越练，环越"满"，一眼能看出哪天猛、哪天歇。
+  </div>
+
+  <p class="ask">这版顺眼吗？确认的话我直接把 <code>renderHeatmap()</code> 改成 SVG 同心环；若想调：① 满环阈值（现在单日 3 次满，可改 4/5）；② 环的先后顺序或配色；③ 是否要中心显示数字——回我就行。</p>
+</div>
+
+<script>
+  const week = [
+    { label:'一', today:false, items:['cardio'] },
+    { label:'二', today:false, items:['strength'] },
+    { label:'三', today:false, items:['cardio','core'] },
+    { label:'四', today:false, items:[] },
+    { label:'五', today:true,  items:['cardio','cardio','strength'] },
+    { label:'六', today:false, items:['core'] },
+    { label:'日', today:false, items:['strength','core'] },
+  ];
+  const rings = [
+    { cat:'cardio',   color:'#22d3ee', r:42 },
+    { cat:'strength', color:'#fb7185', r:30 },
+    { cat:'core',     color:'#a78bfa', r:18 },
+  ];
+  const CAP = 3;                 // 单日满环次数
+  const CENTER = 50, STROKE = 7; // SVG 中心与线宽
+
+  function ringSVG(day){
+    const nameMap = { cardio:'有氧', strength:'力量', core:'核心' };
+    const detail = day.items.length
+      ? day.items.map(x=>nameMap[x]).join('、') : '休息';
+    let s = `<svg viewBox="0 0 100 100" role="img" title="${day.label}${day.today?'（今天）':''}：${detail}">`;
+    rings.forEach(rg=>{
+      const C = 2 * Math.PI * rg.r;
+      s += `<circle cx="${CENTER}" cy="${CENTER}" r="${rg.r}" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="${STROKE}"/>`;
+      const cnt = day.items.filter(x=>x===rg.cat).length;
+      const frac = Math.min(cnt / CAP, 1);
+      if (frac > 0){
+        const dash = C * frac;
+        s += `<circle cx="${CENTER}" cy="${CENTER}" r="${rg.r}" fill="none" stroke="${rg.color}" stroke-width="${STROKE}" stroke-linecap="round" stroke-dasharray="${dash.toFixed(2)} ${(C-dash).toFixed(2)}" transform="rotate(-90 ${CENTER} ${CENTER})"/>`;
+      }
+    });
+    if (day.today){
+      s += `<circle cx="${CENTER}" cy="${CENTER}" r="47" fill="none" stroke="#00d4ff" stroke-width="2"/>`;
+    }
+    if (day.items.length){
+      s += `<text x="${CENTER}" y="55" text-anchor="middle" font-size="17" font-weight="600" fill="#e8eef7">${day.items.length}</text>`;
+    }
+    s += `</svg>`;
+    return s;
+  }
+
+  const root = document.getElementById('rings');
+  week.forEach(d=>{
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.innerHTML = ringSVG(d) + `<span class="lab${d.today?' t':''}">${d.label}</span>`;
+    root.appendChild(cell);
+  });
+</script>
+</body>
+</html>

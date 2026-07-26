@@ -4,7 +4,7 @@
 
 ## 关键约定
 - **OpenCode 手册必须本地化**：内容在 `js/manual/opencode-content.js`（manualData），经 `learn.js` 的 `showOpenCodeManual()` 弹窗渲染。不要重新引入外链。
-- **部署**：GitHub Pages + GitHub Actions，push `main` 自动部署（`.github/workflows/deploy.yml`）。项目页路径 `/LiveHub/`，全站使用相对路径。
+- **部署**：静态部署（GitHub Pages / Netlify / Cloudflare Pages），全站使用相对路径。项目页路径 `/LiveHub/`。
 - **manifest**：`start_url` / `scope` 均为 `"."`（适配子路径部署）。
 - **SW 版本**在 3 处保持一致：`index.html` 的 `lh_sw_vN` 与 `sw.js?v=N`、`sw.js` 的 `CACHE = 'livehub-vN'`，改动资源时一起 +1。
 - `_headers` 仅 Netlify/Cloudflare 生效，GitHub Pages 忽略；`.nojekyll` 已存在以保留下划线文件。

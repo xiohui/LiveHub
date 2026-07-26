@@ -9,6 +9,8 @@ const ASSETS = [
   './js/router.js',
   './js/store.js',
   './js/db.js',
+  './js/icons.js',
+  './js/utils.js',
   './js/pages/home.js',
   './js/pages/life.js',
   './js/pages/sport.js',
@@ -16,6 +18,15 @@ const ASSETS = [
   './js/manual/opencode-content.js',
   './icons/icon-192.svg',
   './icons/icon-512.svg',
+  './icons/icon-48.png',
+  './icons/icon-72.png',
+  './icons/icon-96.png',
+  './icons/icon-128.png',
+  './icons/icon-144.png',
+  './icons/icon-152.png',
+  './icons/icon-192.png',
+  './icons/icon-384.png',
+  './icons/icon-512.png',
 ];
 
 self.addEventListener('install', e => {

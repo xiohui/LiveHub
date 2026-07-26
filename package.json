@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "scripts": {
+    "generate-icons": "node gen-icons.js && node gen-icons2.js && node gen-icons3.js && node gen-icons4.js",
+    "generate-png": "node -e \"const s=require('sharp'),b='icons/icon-192.svg';[48,72,96,128,144,152,192,384,512].forEach(n=>s(b).resize(n,n).png().toFile('icons/icon-'+n+'.png'));console.log('done')\"",
+    "start": "npx serve .",
+    "build": "npm run generate-png",
+    "copy-assets": "node -e \"require('fs').cpSync('index.html','android/app/src/main/assets/index.html',{recursive:false,errorOnExist:false});require('fs').cpSync('css/style.css','android/app/src/main/assets/css/style.css',{recursive:false,errorOnExist:false});['js','icons'].forEach(d=>require('fs').cpSync(d,'android/app/src/main/assets/'+d,{recursive:true,errorOnExist:false}));console.log('assets synced');\""
+  },
+  "devDependencies": {
+    "sharp": "^0.35.3",
+    "opentype.js": "^2.0.0",
+    "serve": "^14.2.0"
+  }
+}
